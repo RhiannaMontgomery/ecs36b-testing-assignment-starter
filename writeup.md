@@ -1,9 +1,9 @@
 # Google Test And Debugging Writeup
 
 ## Things I Thought To Test
-1. Thing 1
-2. Thing 2
-3. Thing 3
+1. Repeated Numbers (5, 3, 5, 7, 11)
+2. All Numbers are the same (1, 1, 1, 1, 1)
+3. idk ¯\(ツ)/¯
 ...
 
 ## Bugs

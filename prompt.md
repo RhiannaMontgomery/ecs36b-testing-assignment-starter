@@ -3,7 +3,7 @@
 ## Goals
 
 - Become comfortable using Google Test to write test cases
-- Become comfortable using Rapid Check to write property based test cases
+- Become comfortable using Rapid Check to write property-based test cases
 - Become comfortable using the debugger to locate and resolve errors in a program
 
 ## Matthew's Stats
@@ -109,7 +109,7 @@ Let's say we were given the following values: [12, 45, 10, 8, 13]
 |-------|---|----|----|----|----|
 | Value | 8 | 10 | 12 | 13 | 45 |
 
-1. i = 43 so we find the minimum value at index >= 4
+1. i = 4 so we find the minimum value at index >= 4
 2. This is 45, located at index 4. 
 3. Swap what is at index 4 and index 4.
 

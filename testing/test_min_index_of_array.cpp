@@ -4,52 +4,55 @@
 #include "gmock/gmock.h"
 #include "rapidcheck/gtest.h"
 #include "sorting.h"
+#include "test_helpers.h"
 
 TEST(MinIndexOfArrayTests, SimpleMinIndexAtFrontOfArray) {
-    /*
-     * See if we can find the index of the minimum value when it is at the front of the array
-     */
+    int ar[] = {1, 5, 10, 2, 8};
+    EXPECT_EQ(min_index_of_array(ar, 5), 0);
 }
 
 TEST(MinIndexOfArrayTests, SimpleMinIndexAtEndOfArray) {
-    /*
-     * See if we can find the index of the minimum value when it is at the end of the array
-     */
+    int ar[] = {10, 5, 10, 2, 1};
+    EXPECT_EQ(min_index_of_array(ar, 5), 4);
 }
 
 TEST(MinIndexOfArrayTests, SimpleMinIndexAtMiddleOfArray) {
-    /*
-     * See if we can find the index of the minimum value when it is somewhere
-     * in the "middle" of the array.
-     */
+    int ar[] = {10, 5, 1, 2, 8};
+    EXPECT_EQ(min_index_of_array(ar, 5), 2);
 }
 
 TEST(MinIndexOfArrayTests, SimpleDuplicateMinimums) {
-    /*
-     * See if we return the index of the first minimum in the array
-     * When there are multiple values that are the minimum.
-     */
+    int ar[] = {10, 1, 10, 1, 8};
+    EXPECT_EQ(min_index_of_array(ar, 5), 1);
 }
 
 TEST(MinIndexOfArrayTests, SimpleArrayDoesNotChange) {
-    /*
-     * Check that finding the minimum of the array did not change the contents of the array.
-     */
+    int ar[] = {10, 5, 1, 2, 8};
+    int original[] = {10, 5, 1, 2, 8};
+    min_index_of_array(ar, 5);
+    for(int i=0; i<5; ++i) EXPECT_EQ(ar[i], original[i]);
 }
 
+RC_GTEST_PROP(MinIndexOfArrayTests, PropertyFindMinIndex, (const std::vector<int>& values)) {
+    RC_PRE(!values.empty());
+    int* ar = (int*)malloc(values.size() * sizeof(int));
+    copy_vector_to_array(values, ar);
 
-RC_GTEST_PROP(MinIndexOfArrayTests,
-              PropertyFindMinIndex,
-              ()) {
-    /* Check that the value at the location of the minimum index
-     * is not larger than any of the other values in the array
-     */
+    int min_idx = min_index_of_array(ar, (int)values.size());
+    RC_ASSERT(min_idx >= 0 && min_idx < (int)values.size());
+
+    int min_val = ar[min_idx];
+    for (int val: values) {
+        RC_ASSERT(min_val <= val);
+    }
+    free(ar);
 }
 
-RC_GTEST_PROP(MinIndexOfArrayTests,
-              PropertyArrayDoesNotChange,
-              ()) {
-    /*
-     * Check that finding the minimum of the array did not change the contents of the array.
-     */
+RC_GTEST_PROP(MinIndexOfArrayTests, PropertyArrayDoesNotChange, (const std::vector<int>& values)) {
+    RC_PRE(!values.empty());
+    int* ar = (int*)malloc(values.size() * sizeof(int));
+    copy_vector_to_array(values, ar);
+    min_index_of_array(ar, (int)values.size());
+    RC_ASSERT(elements_in_vector_and_array_are_same(values, ar));
+    free(ar);
 }
